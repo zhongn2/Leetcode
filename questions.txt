@@ -1,0 +1,56 @@
+1. get the prime number from 1 - n
+2. you have 8 bottles, one is toxic, use the least people to find the toxic bottle
+3. an array of coins' value, the coins can be used many times. given a target value, find the solutions.
+
+1. vector<int> Prime(int n){
+	vector<int> primes;
+	primes.push_back(2);
+	for(int i = 0; i < n; i++){
+		for(int j = 0; j < primes.size(); j++){
+			if( j * j > i){
+				primes.push_back(i);
+				break;
+			}
+			if( i % j == 0){
+				break;
+			}
+		}
+	}
+	return primes;
+}
+
+2. use 3 digits binary number to present 8 bottle
+ 000 0
+ 001 1
+ 010 2
+ 011 3
+ 100 4
+ 101 5
+ 110 6
+ 111 7
+ use three people to test
+ {1, 3, 5, 7} A
+ {2, 3, 6, 7} B
+ {4, 5, 6, 7} C
+
+ if A died, chioce is 1
+ if B died, choice is 2
+ if C died, choice is 4
+ if A AND B died, it is 3
+ if A and C died, it is 5
+ if B and C died, it is 5
+ A, B, C all died, it is 7
+ or no one died, it is 8
+ 
+ 3.
+ D[i][j]: first j coins that can be sumed up to the target i
+ we think about to the jth coin, how many times we can use.
+ if we don't use coin[j]
+ D[i][j] = D[target-coin[j]*0][j-1];
+ if we use just once
+ D[i][j] = D[target - coin[j] * 1][j-1];
+ if we use for many times until n
+ D[i][j] = D[target - coin[j]*n] [j-1]
+ so D[i][j] = D[target][j-1] + D[target-coin[j]][j-1] +......D[target-coin[j]*n][j-1];
+ 
+	
