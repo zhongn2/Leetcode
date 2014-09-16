@@ -17,24 +17,23 @@
 class Solution {
 public:
     ListNode *partition(ListNode *head, int x) {
-        ListNode stdummy(-1);
-        ListNode nddummy(-1);
-        auto l = &stdummy;
-        auto r = &nddummy;
-        for(ListNode *curr = head;curr; curr = curr -> next){
-            if(curr -> val < x){
-                l -> next = curr;
-                l = curr; // move the l pointer
+        if(head == NULL) return head;
+        ListNode *dummy1 = new ListNode(-1);
+        ListNode *dummy2 = new ListNode(-1);
+        ListNode *node1 = dummy1;
+        ListNode *node2 = dummy2;
+        while(head){
+            if(head -> val < x){
+                node1 -> next = head;
+                node1 = node1 -> next;
             }else{
-                r -> next = curr;
-                r = curr;
+                node2 -> next = head;
+                node2 = node2 -> next;
             }
+            head = head -> next;
         }
-        
-        l -> next = nddummy.next;
-        //nddummy.next = NULL;//stupid mistake. how can this happen??
-		r -> next = NULL;
-        return stdummy.next;
+        node2 -> next = NULL; // end flag
+        node1 -> next = dummy2 -> next; // point dummy2 to the end of node1 list
+        return dummy1 -> next;
     }
-
 };
